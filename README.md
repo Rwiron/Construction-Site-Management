@@ -118,11 +118,7 @@ BSMS centralizes building management processes into one user-friendly platform. 
 
 1. **Clone the Repository**  
    ```bash
-<<<<<<< HEAD
-   git clone https://github.com/this repo bro/bsms.git
-=======
    git clone https://github.com/Construction-Site-Management/bsms.git
->>>>>>> 9f67b19 (repo name)
    ```
 
 2. **Install Dependencies**  
@@ -130,9 +126,6 @@ BSMS centralizes building management processes into one user-friendly platform. 
    composer install
    npm install
    ```
-
-   
-
 
 3. **Set Up Environment**  
    - Copy `.env.example` to `.env`.  
