@@ -118,7 +118,7 @@ BSMS centralizes building management processes into one user-friendly platform. 
 
 1. **Clone the Repository**  
    ```bash
-   git clone https://github.com/your-repository/bsms.git
+   git clone https://github.com/this repo bro/bsms.git
    ```
 
 2. **Install Dependencies**  
