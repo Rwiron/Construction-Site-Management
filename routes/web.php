@@ -4,6 +4,7 @@ use App\Http\Controllers\Applicant\ApplicantController;
 use App\Http\Controllers\BuildingAdmin\BuildingAdminController;
 use App\Http\Controllers\Maintane\MaintenanceController;
 use App\Http\Controllers\Resource\UtilityController;
+use App\Http\Controllers\Setting\TeamPositionController;
 use App\Http\Controllers\Staff\StaffController;
 use App\Http\Controllers\Tenant\TenantController;
 use App\Http\Controllers\Unit\UnitController;
@@ -87,7 +88,25 @@ Route::middleware(['auth', 'checkrole:superadmin'])->group(function () {
         Route::put('/update/{staff}', [StaffingController::class, 'update'])->name('staffing.update');
         Route::delete('/delete/{staff}', [StaffingController::class, 'destroy'])->name('staffing.destroy');
     });
-    
+
+    // setting controller
+    // Route::prefix('settings')->group(function () {
+    //     Route::get('/', [TeamPositionController::class, 'index'])->name('settings.index');
+    //     Route::post('/team/store', [TeamPositionController::class, 'storeTeam'])->name('settings.team.store');
+    //     Route::post('/position/store', [TeamPositionController::class, 'storePosition'])->name('settings.position.store');
+    //     Route::delete('/team/delete/{team}', [TeamPositionController::class, 'destroyTeam'])->name('settings.team.destroy');
+    //     Route::delete('/position/delete/{position}', [TeamPositionController::class, 'destroyPosition'])->name('settings.position.destroy');
+    // });
+
+    Route::prefix('settings')->group(function () {
+        Route::get('/', [TeamPositionController::class, 'index'])->name('settings.index');
+        Route::post('/team/store', [TeamPositionController::class, 'storeTeam'])->name('settings.team.store');
+        Route::post('/position/store', [TeamPositionController::class, 'storePosition'])->name('settings.position.store');
+        Route::put('/team/update/{team}', [TeamPositionController::class, 'updateTeam'])->name('settings.team.update');
+        Route::put('/position/update/{position}', [TeamPositionController::class, 'updatePosition'])->name('settings.position.update');
+        Route::delete('/team/delete/{team}', [TeamPositionController::class, 'destroyTeam'])->name('settings.team.destroy');
+        Route::delete('/position/delete/{position}', [TeamPositionController::class, 'destroyPosition'])->name('settings.position.destroy');
+    });
 });
 
 
