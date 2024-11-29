@@ -34,7 +34,6 @@
                         <table class="w-full whitespace-nowrap">
                             <thead class="ltr:text-left rtl:text-right">
                                 <tr class="bg-slate-100 dark:bg-zink-600">
-                                    <th class="px-3.5 py-2.5 first:pl-5 last:pr-5 font-semibold border-b border-slate-200 dark:border-zink-500">ID</th>
                                     <th class="px-3.5 py-2.5 first:pl-5 last:pr-5 font-semibold border-b border-slate-200 dark:border-zink-500">Name</th>
                                     <th class="px-3.5 py-2.5 first:pl-5 last:pr-5 font-semibold border-b border-slate-200 dark:border-zink-500">Email</th>
                                     <th class="px-3.5 py-2.5 first:pl-5 last:pr-5 font-semibold border-b border-slate-200 dark:border-zink-500">Phone</th>
@@ -47,7 +46,6 @@
                             <tbody>
                                 @foreach ($tenants as $tenant)
                                 <tr>
-                                    <td class="px-3.5 py-2.5">{{ $tenant->id }}</td>
                                     <td class="px-3.5 py-2.5">{{ $tenant->name }}</td>
                                     <td class="px-3.5 py-2.5">{{ $tenant->email }}</td>
                                     <td class="px-3.5 py-2.5">{{ $tenant->phone }}</td>

@@ -34,7 +34,6 @@
                         <table class="w-full whitespace-nowrap">
                             <thead class="ltr:text-left rtl:text-right">
                                 <tr class="bg-slate-100 dark:bg-zink-600">
-                                    <th class="px-3.5 py-2.5 font-semibold border-b">ID</th>
                                     <th class="px-3.5 py-2.5 font-semibold border-b">Name</th>
                                     <th class="px-3.5 py-2.5 font-semibold border-b">Description</th>
                                     <th class="px-3.5 py-2.5 font-semibold border-b">Status</th>
@@ -44,7 +43,6 @@
                             <tbody>
                                 @foreach ($units as $unit)
                                 <tr>
-                                    <td class="px-3.5 py-2.5">{{ $unit->id }}</td>
                                     <td class="px-3.5 py-2.5">{{ $unit->name }}</td>
                                     <td class="px-3.5 py-2.5">{{ $unit->description }}</td>
                                     <td class="px-3.5 py-2.5">{{ $unit->status }}</td>

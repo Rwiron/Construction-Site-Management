@@ -3,6 +3,7 @@
 use App\Http\Controllers\Applicant\ApplicantController;
 use App\Http\Controllers\BuildingAdmin\BuildingAdminController;
 use App\Http\Controllers\Maintane\MaintenanceController;
+use App\Http\Controllers\Resource\UtilityController;
 use App\Http\Controllers\Staff\StaffController;
 use App\Http\Controllers\Tenant\TenantController;
 use App\Http\Controllers\Unit\UnitController;
@@ -12,6 +13,9 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Superadmin\SuperadminController;
 use App\Http\Controllers\Tenant\TenantSecController;
+use App\Http\Controllers\Staffing\StaffingController;
+
+
 
 //---------------------Auth route--------------------
 
@@ -67,6 +71,23 @@ Route::middleware(['auth', 'checkrole:superadmin'])->group(function () {
         Route::put('/update/{id}', [MaintenanceController::class, 'update'])->name('maintane.update'); // Use PUT for updates
         Route::delete('/delete/{id}', [MaintenanceController::class, 'destroy'])->name('maintane.destroy');
     });
+
+    // Utilities and Resource
+    Route::prefix('utilities')->group(function () {
+        Route::get('/', [UtilityController::class, 'index'])->name('utilities.index');
+        Route::post('/store', [UtilityController::class, 'store'])->name('utilities.store');
+        Route::post('/update/{utility}', [UtilityController::class, 'update'])->name('utilities.update');
+        Route::delete('/delete/{utility}', [UtilityController::class, 'destroy'])->name('utilities.destroy');
+    });
+
+    // staff controller
+    Route::prefix('staffing')->group(function () {
+        Route::get('/', [StaffingController::class, 'index'])->name('staffing.index');
+        Route::post('/store', [StaffingController::class, 'store'])->name('staffing.store');
+        Route::put('/update/{staff}', [StaffingController::class, 'update'])->name('staffing.update');
+        Route::delete('/delete/{staff}', [StaffingController::class, 'destroy'])->name('staffing.destroy');
+    });
+    
 });
 
 

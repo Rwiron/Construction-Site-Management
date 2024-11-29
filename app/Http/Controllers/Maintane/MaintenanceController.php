@@ -55,52 +55,7 @@ class MaintenanceController extends Controller
         }
     }
 
-
-
-    /**
-     * Update the specified maintenance task in the database.
-     */
-    // public function update(Request $request, Maintenance $maintenance)
-    // {
-    //     // Log the incoming request data
-    //     Log::info('Update maintenance request received:', $request->all());
-
-    //     // Validation
-    //     $validated = $request->validate([
-    //         'maintenance_type' => 'required|string|max:255',
-    //         'description' => 'nullable|string',
-    //         'status' => 'required|in:Pending,In Progress,Completed',
-    //         'assigned_to' => 'nullable|exists:users,id',
-    //         'start_date' => 'nullable|date',
-    //         'end_date' => 'nullable|date|after_or_equal:start_date',
-    //         'priority' => 'required|in:Low,Medium,High',
-    //     ]);
-
-    //     try {
-    //         // Log the validated data
-    //         Log::info('Validated maintenance data:', $validated);
-
-    //         // Update the maintenance record
-    //         $maintenance->update($validated);
-
-    //         // Log the successful update
-    //         Log::info('Maintenance updated successfully:', $maintenance->toArray());
-
-    //         // Use Toastr for success notification
-    //         Toastr::success('Maintenance task updated successfully.');
-    //     } catch (\Exception $e) {
-    //         // Log the exception
-    //         Log::error('Error updating maintenance:', ['error' => $e->getMessage()]);
-
-    //         // Use Toastr for error notification
-    //         Toastr::error('Failed to update maintenance task. Please try again.');
-    //     }
-
-    //     // Redirect back to the maintenance index
-    //     return redirect()->route('maintane.index');
-    // }
-
-
+    
     public function update(Request $request, $id)
     {
         Log::info('Update Request Received:', $request->all());
@@ -132,7 +87,7 @@ class MaintenanceController extends Controller
         return redirect()->route('maintane.index');
     }
 
-    
+
     public function destroy($id)
     {
         $maintenance = Maintenance::find($id);
