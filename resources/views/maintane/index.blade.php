@@ -34,7 +34,6 @@
                         <table class="w-full whitespace-nowrap">
                             <thead class="ltr:text-left rtl:text-right">
                                 <tr class="bg-slate-100 dark:bg-zink-600">
-                                    <th class="px-3.5 py-2.5 font-semibold border-b">ID</th>
                                     <th class="px-3.5 py-2.5 font-semibold border-b">Type</th>
                                     <th class="px-3.5 py-2.5 font-semibold border-b">Description</th>
                                     <th class="px-3.5 py-2.5 font-semibold border-b">Status</th>
@@ -48,7 +47,6 @@
                             <tbody>
                                 @foreach ($maintenances as $maintenance)
                                 <tr>
-                                    <td class="px-3.5 py-2.5">{{ $maintenance->id }}</td>
                                     <td class="px-3.5 py-2.5">{{ $maintenance->maintenance_type }}</td>
                                     <td class="px-3.5 py-2.5">{{ $maintenance->description }}</td>
                                     <td class="px-3.5 py-2.5">{{ $maintenance->status }}</td>
@@ -211,10 +209,41 @@
     <!-- End Edit Maintenance Modal -->
 
 
-
-
-
     <!-- Delete Maintenance Modal -->
+    <div id="deleteMaintenanceModal" modal-center="" class="fixed hidden transition-all duration-300 left-2/4 z-drawer -translate-x-2/4 -translate-y-2/4">
+        <div class="w-screen md:w-[25rem] bg-white shadow rounded-md dark:bg-zink-600">
+            <div class="max-h-[calc(theme('height.screen')_-_180px)] overflow-y-auto px-6 py-8">
+                <div class="float-right">
+                    <button data-modal-close="deleteMaintenanceModal" id="closeDeleteMaintenanceModal" class="transition-all duration-200 ease-linear text-slate-500 hover:text-red-500">
+                        <i data-lucide="x" class="size-5"></i>
+                    </button>
+                </div>
+                <img src="" alt="" class="block h-12 mx-auto">
+                <div class="mt-5 text-center">
+                    <h5 class="mb-1">Are you sure?</h5>
+                    <p class="text-slate-500 dark:text-zink-200">Do you want to delete this maintenance task?</p>
+                    <form id="delete-maintenance-form" method="POST" action="">
+                        @csrf
+                        @method('DELETE')
+                        <input type="hidden" id="deleteMaintenanceId" name="id">
+                        <div class="flex justify-center gap-2 mt-6">
+                            <button type="reset" data-modal-close="deleteMaintenanceModal" class="bg-white text-slate-500 btn hover:text-slate-500 hover:bg-slate-100">
+                                Cancel
+                            </button>
+                            <button type="submit" class="text-white bg-red-500 border-red-500 btn hover:text-white hover:bg-red-600">
+                                Yes, Delete It!
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Delete Maintenance Modal -->
+
+
+
+
     <!-- Similar to Delete Modal -->
 
 </div>
@@ -257,6 +286,23 @@
 
             // Show the modal
             document.getElementById('editMaintenanceModal').classList.remove('hidden');
+        });
+    });
+
+    document.querySelectorAll('.delete-maintenance-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            // Get the maintenance ID from the button's data attributes
+            const maintenanceId = this.dataset.id;
+
+            // Set the maintenance ID in the hidden input field
+            document.getElementById('deleteMaintenanceId').value = maintenanceId;
+
+            // Update the form action dynamically
+            const form = document.getElementById('delete-maintenance-form');
+            form.action = `/maintane/delete/${maintenanceId}`;
+
+            // Show the delete modal
+            document.getElementById('deleteMaintenanceModal').classList.remove('hidden');
         });
     });
 

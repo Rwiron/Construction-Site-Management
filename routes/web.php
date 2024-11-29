@@ -70,11 +70,6 @@ Route::middleware(['auth', 'checkrole:superadmin'])->group(function () {
 });
 
 
-
-
-
-
-
 //---------------------Building Applicant Route---------------------
 Route::middleware(['auth', 'checkrole:building_applicant'])->group(function () {
     Route::get('/applicant/status', [ApplicantController::class, 'index'])->name('applicant.status');

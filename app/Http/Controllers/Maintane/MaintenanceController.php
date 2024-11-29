@@ -135,16 +135,17 @@ class MaintenanceController extends Controller
     /**
      * Remove the specified maintenance task from the database.
      */
-    public function destroy(Maintenance $maintenance)
+    public function destroy($id)
     {
-        try {
-            $maintenance->delete();
-            Toastr::success('Maintenance task deleted successfully.');
+        $maintenance = Maintenance::find($id);
+
+        if (!$maintenance) {
+            Toastr::error('Maintenance task not found.');
             return redirect()->route('maintane.index');
-        } catch (\Exception $e) {
-            Log::error("Error deleting maintenance task: " . $e->getMessage());
-            Toastr::error('Failed to delete maintenance task. Please try again.');
-            return back();
         }
+
+        $maintenance->delete();
+        Toastr::success('Maintenance task deleted successfully.');
+        return redirect()->route('maintane.index');
     }
 }
