@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Applicant\ApplicantController;
 use App\Http\Controllers\BuildingAdmin\BuildingAdminController;
+use App\Http\Controllers\Maintane\MaintenanceController;
 use App\Http\Controllers\Staff\StaffController;
 use App\Http\Controllers\Tenant\TenantController;
 use App\Http\Controllers\Unit\UnitController;
@@ -50,6 +51,7 @@ Route::middleware(['auth', 'checkrole:superadmin'])->group(function () {
         Route::delete('/delete/{id}', [TenantSecController::class, 'destroy'])->name('destroy');
     });
 
+    // unit
     Route::prefix('unit')->group(function () {
         Route::get('/', [UnitController::class, 'index'])->name('unit.index');
         Route::post('/store', [UnitController::class, 'store'])->name('unit.store');
@@ -58,6 +60,13 @@ Route::middleware(['auth', 'checkrole:superadmin'])->group(function () {
         Route::delete('/delete/{id}', [UnitController::class, 'destroy'])->name('unit.destroy');
     });
 
+    // mainitance
+    Route::prefix('maintane')->group(function () {
+        Route::get('/', [MaintenanceController::class, 'index'])->name('maintane.index');
+        Route::post('/store', [MaintenanceController::class, 'store'])->name('maintane.store');
+        Route::put('/update/{id}', [MaintenanceController::class, 'update'])->name('maintane.update'); // Use PUT for updates
+        Route::delete('/delete/{id}', [MaintenanceController::class, 'destroy'])->name('maintane.destroy');
+    });
 });
 
 
