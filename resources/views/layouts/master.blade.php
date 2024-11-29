@@ -268,11 +268,13 @@
                             <script>
                                 document.write(new Date().getFullYear())
 
-                            </script> Moshion Fashion Trend Analysis
+                            </script>
+                            &copy; Building Solution Management System
+
                         </div>
                         <div class="hidden lg:block">
                             <div class="ltr:text-right rtl:text-left">
-                                Design & Develop by Wiron R
+                                Design & Develop by Aurora Irakoze
                             </div>
                         </div>
                     </div>
@@ -499,6 +501,10 @@
     <script src="{{ asset('assets/libs/apexcharts/apexcharts.min.js') }}"></script>
     <!--dashboard ecommerce init js-->
     <script src="{{ asset('assets/js/pages/dashboards-ecommerce.init.js') }}"></script>
+    <script src="{{ asset('assets/js/pages/dashboards-hr.init.js') }}"></script>
+    <script src="{{ asset('assets/libs/vanilla-calendar-pro/build/vanilla-calendar.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/list.pagination.js/list.pagination.min.js') }}"></script>
+    <script src="{{ asset('assets/js/pages/apps-hr-employee.init.js') }}"></script>
     <!-- App js -->
     <script src="{{ asset('assets/js/app.js') }}"></script>
 </body>
