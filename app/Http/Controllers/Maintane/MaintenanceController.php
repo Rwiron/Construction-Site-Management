@@ -132,9 +132,7 @@ class MaintenanceController extends Controller
         return redirect()->route('maintane.index');
     }
 
-    /**
-     * Remove the specified maintenance task from the database.
-     */
+    
     public function destroy($id)
     {
         $maintenance = Maintenance::find($id);
