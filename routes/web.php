@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Applicant\ApplicantController;
 use App\Http\Controllers\BuildingAdmin\BuildingAdminController;
+use App\Http\Controllers\BuildingApplication\BuildingApplicationController;
 use App\Http\Controllers\Maintane\MaintenanceController;
 use App\Http\Controllers\Resource\UtilityController;
 use App\Http\Controllers\Setting\TeamPositionController;
@@ -15,6 +16,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Superadmin\SuperadminController;
 use App\Http\Controllers\Tenant\TenantSecController;
 use App\Http\Controllers\Staffing\StaffingController;
+use App\Http\Controllers\Report\ReportsController;
 
 
 
@@ -89,15 +91,7 @@ Route::middleware(['auth', 'checkrole:superadmin'])->group(function () {
         Route::delete('/delete/{staff}', [StaffingController::class, 'destroy'])->name('staffing.destroy');
     });
 
-    // setting controller
-    // Route::prefix('settings')->group(function () {
-    //     Route::get('/', [TeamPositionController::class, 'index'])->name('settings.index');
-    //     Route::post('/team/store', [TeamPositionController::class, 'storeTeam'])->name('settings.team.store');
-    //     Route::post('/position/store', [TeamPositionController::class, 'storePosition'])->name('settings.position.store');
-    //     Route::delete('/team/delete/{team}', [TeamPositionController::class, 'destroyTeam'])->name('settings.team.destroy');
-    //     Route::delete('/position/delete/{position}', [TeamPositionController::class, 'destroyPosition'])->name('settings.position.destroy');
-    // });
-
+    // settings
     Route::prefix('settings')->group(function () {
         Route::get('/', [TeamPositionController::class, 'index'])->name('settings.index');
         Route::post('/team/store', [TeamPositionController::class, 'storeTeam'])->name('settings.team.store');
@@ -107,12 +101,33 @@ Route::middleware(['auth', 'checkrole:superadmin'])->group(function () {
         Route::delete('/team/delete/{team}', [TeamPositionController::class, 'destroyTeam'])->name('settings.team.destroy');
         Route::delete('/position/delete/{position}', [TeamPositionController::class, 'destroyPosition'])->name('settings.position.destroy');
     });
+
+    // report
+    Route::prefix('report')->group(function () {
+        Route::get('/', [ReportsController::class, 'index'])->name('report.index');
+        Route::get('/create', [ReportsController::class, 'create'])->name('report.create');
+        Route::post('/store', [ReportsController::class, 'store'])->name('report.store');
+        Route::get('/edit/{report}', [ReportsController::class, 'edit'])->name('report.edit');
+        Route::put('/update/{report}', [ReportsController::class, 'update'])->name('report.update'); // Corrected route
+        Route::delete('/delete/{report}', [ReportsController::class, 'destroy'])->name('report.destroy');
+    });
 });
+
 
 
 //---------------------Building Applicant Route---------------------
 Route::middleware(['auth', 'checkrole:building_applicant'])->group(function () {
     Route::get('/applicant/status', [ApplicantController::class, 'index'])->name('applicant.status');
+
+    // building application
+    Route::prefix('building_application')->group(function () {
+        Route::get('/', [BuildingApplicationController::class, 'index'])->name('building_application.index');
+        Route::get('/create', [BuildingApplicationController::class, 'create'])->name('building_application.create');
+        Route::post('/store', [BuildingApplicationController::class, 'store'])->name('building_application.store');
+        Route::get('/edit/{application}', [BuildingApplicationController::class, 'edit'])->name('building_application.edit');
+        Route::put('/update/{application}', [BuildingApplicationController::class, 'update'])->name('building_application.update');
+        Route::delete('/delete/{application}', [BuildingApplicationController::class, 'destroy'])->name('building_application.destroy');
+    });
 });
 
 //---------------------Building Admin Route---------------------
