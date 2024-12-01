@@ -507,6 +507,11 @@
     <script src="{{ asset('assets/js/pages/apps-hr-employee.init.js') }}"></script>
     <!-- App js -->
     <script src="{{ asset('assets/js/app.js') }}"></script>
+    <!-- calendar min js -->
+    <script src="{{ asset('assets/libs/fullcalendar/index.global.min.js') }}"></script>
+
+    <script type="text/javascript" src="{{ asset('assets/js/pages/apps-calendar.init.js') }}"></script>
+
 </body>
 
 </html>
