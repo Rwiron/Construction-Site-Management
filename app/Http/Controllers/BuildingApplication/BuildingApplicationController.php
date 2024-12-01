@@ -8,20 +8,39 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Brian2694\Toastr\Facades\Toastr;
+use Illuminate\Support\Facades\Storage;
 
 class BuildingApplicationController extends Controller
 {
     /**
      * Display a listing of building applicants.
      */
+    // public function index()
+    // {
+    //     // Fetch all applications with their user info
+    //     $applications = BuildingApplicant::with('user')->get();
+    //     // Pass data to the view
+    //     return view('building_application.index', compact('applications'));
+    // }
+
+
     public function index()
     {
-        // Fetch all applications with their user info
-        $applications = BuildingApplicant::with('user')->get();
+        try {
+            // Fetch applications belonging to the logged-in user
+            $applications = BuildingApplicant::where('user_id', Auth::id())->with('user')->get();
 
-        // Pass data to the view
-        return view('building_application.index', compact('applications'));
+            // Pass data to the view
+            return view('building_application.index', compact('applications'));
+        } catch (\Exception $e) {
+            Log::error('Error fetching applications:', [
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+            return redirect()->back()->with('error', 'An error occurred while fetching your applications.');
+        }
     }
+
 
     /**
      * Show the form for creating a new application.
@@ -43,8 +62,7 @@ class BuildingApplicationController extends Controller
                 'phone' => 'required|string|max:15',
                 'address' => 'required|string|max:255',
                 'documents' => 'nullable|array',
-                //'documents.*' => 'file|mimes:pdf,jpg,jpeg,png|max:2048',
-                'documents.*' => 'file|mimes:pdf|max:2048',
+                'documents.*' => 'file|mimes:pdf|max:2048', // Only allow PDF files
             ]);
 
             // Add the logged-in user's ID and set the default status
@@ -58,9 +76,18 @@ class BuildingApplicationController extends Controller
             if ($request->hasFile('documents')) {
                 $documentPaths = [];
                 foreach ($request->file('documents') as $file) {
-                    $path = $file->store('building_applications'); // Store the file
-                    $documentPaths[] = $path;
+                    // Generate a unique name using the original name
+                    $originalName = $file->getClientOriginalName();
+                    $fileName = time() . '_' . $originalName; // Add a timestamp to avoid conflicts
+
+                    // Store the file and save the path
+                    $path = $file->storeAs('building_applications', $fileName);
+                    $documentPaths[] = [
+                        'path' => $path,
+                        'name' => $originalName,
+                    ];
                 }
+                // Save the documents as a JSON-encoded array of objects
                 $application->update(['documents' => json_encode($documentPaths)]);
             }
 
@@ -75,6 +102,7 @@ class BuildingApplicationController extends Controller
             return redirect()->back();
         }
     }
+
 
     /**
      * Show the form for editing an existing application.
@@ -118,20 +146,6 @@ class BuildingApplicationController extends Controller
         }
     }
 
-
-
-
-    /**
-     * Delete an application.
-     */
-    // public function destroy(BuildingApplicant $application)
-    // {
-    //     // Delete the application
-    //     $application->delete();
-
-    //     // Redirect with success message
-    //     return redirect()->route('building_application.index')->with('success', 'Application deleted successfully.');
-    // }
     public function destroy(BuildingApplicant $application)
     {
         try {
@@ -150,6 +164,55 @@ class BuildingApplicationController extends Controller
             ]);
             Toastr::error('An error occurred while deleting the application.', 'Error');
             return redirect()->back();
+        }
+    }
+
+
+    // BuildingApplicationController
+    public function myRequests()
+    {
+        $userId = Auth::id(); // Get the logged-in user ID
+        $applications = BuildingApplicant::where('user_id', $userId)->get(); // Fetch user's applications
+
+        // Decode the documents field for each application
+        foreach ($applications as $application) {
+            if ($application->documents) {
+                $application->decoded_documents = json_decode($application->documents, true);
+            } else {
+                $application->decoded_documents = [];
+            }
+        }
+
+        return view('building_application.my_requests', compact('applications'));
+    }
+
+    public function download($file)
+    {
+        try {
+            // Define the path relative to the 'private' disk
+            $filePath = "building_applications/{$file}";
+
+            // Log the file path being accessed
+            Log::info("Attempting to download file: {$filePath}");
+
+            // Check if the file exists in the 'private' disk
+            if (Storage::disk('private')->exists($filePath)) {
+                Log::info("File found: {$filePath}");
+
+                // Return the file for download
+                return Storage::disk('private')->download($filePath);
+            }
+
+            // Log an error if the file doesn't exist
+            Log::error("File not found: {$filePath}");
+            return redirect()->back()->with('error', 'File not found.');
+        } catch (\Exception $e) {
+            // Log the exception details
+            Log::error("Error downloading file: {$e->getMessage()}", [
+                'file' => $file,
+                'trace' => $e->getTraceAsString(),
+            ]);
+            return redirect()->back()->with('error', 'An error occurred while downloading the file.');
         }
     }
 }

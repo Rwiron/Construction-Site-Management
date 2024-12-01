@@ -127,13 +127,32 @@ Route::middleware(['auth', 'checkrole:building_applicant'])->group(function () {
         Route::get('/edit/{application}', [BuildingApplicationController::class, 'edit'])->name('building_application.edit');
         Route::put('/update/{application}', [BuildingApplicationController::class, 'update'])->name('building_application.update');
         Route::delete('/delete/{application}', [BuildingApplicationController::class, 'destroy'])->name('building_application.destroy');
+        Route::get('/my-requests', [BuildingApplicationController::class, 'myRequests'])->name('building_application.my_requests');
+        Route::get('/download/{file}', [BuildingApplicationController::class, 'download'])->name('building_application.download');
     });
 });
 
+
+
+
+
 //---------------------Building Admin Route---------------------
 Route::middleware(['auth', 'checkrole:building_admin'])->group(function () {
-    Route::get('/building_admin/dashboard', [BuildingAdminController::class, 'dashboard'])->name('building_admin.dashboard');
+    Route::get('/building_admin/dashboard', [BuildingAdminController::class, 'index'])->name('building_admin.dashboard');
+
+
+    Route::prefix('admin')->group(function () {
+        Route::get('/dashboard', [BuildingAdminController::class, 'index'])->name('admin.dashboard');
+        Route::post('/application/{id}/update-status', [BuildingAdminController::class, 'updateStatus'])->name('admin.application.update-status');
+        Route::get('/download/{file}', [BuildingAdminController::class, 'download'])->name('admin.download');
+    });
 });
+
+
+
+
+
+
 
 //---------------------Tenant Route---------------------
 Route::middleware(['auth', 'checkrole:tenant'])->group(function () {
