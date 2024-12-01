@@ -142,11 +142,24 @@ Route::middleware(['auth', 'checkrole:building_admin'])->group(function () {
     Route::get('/building_admin/dashboard', [BuildingAdminController::class, 'index'])->name('building_admin.dashboard');
 
 
+    // admin
     Route::prefix('admin')->group(function () {
         Route::get('/dashboard', [BuildingAdminController::class, 'index'])->name('admin.dashboard');
         Route::post('/application/{id}/update-status', [BuildingAdminController::class, 'updateStatus'])->name('admin.application.update-status');
         Route::get('/download/{file}', [BuildingAdminController::class, 'download'])->name('admin.download');
         Route::get('/count-applications', [CountAdminController::class, 'index'])->name('admin.count');
+    });
+
+    // user managment
+
+    // User Management Routes
+    Route::prefix('user-management')->group(function () {
+        Route::get('/', [UserManagementController::class, 'index'])->name('user.management.index');
+        Route::get('/create', [UserManagementController::class, 'create'])->name('user.management.create');
+        Route::post('/store', [UserManagementController::class, 'store'])->name('user.management.store');
+        Route::get('/edit/{id}', [UserManagementController::class, 'edit'])->name('user.management.edit');
+        Route::put('/update/{id}', [UserManagementController::class, 'update'])->name('user.management.update');
+        Route::delete('/delete/{id}', [UserManagementController::class, 'destroy'])->name('user.management.destroy');
     });
 });
 
