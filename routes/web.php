@@ -17,6 +17,7 @@ use App\Http\Controllers\Superadmin\SuperadminController;
 use App\Http\Controllers\Tenant\TenantSecController;
 use App\Http\Controllers\Staffing\StaffingController;
 use App\Http\Controllers\Report\ReportsController;
+use App\Http\Controllers\BuildingAdmin\CountAdminController;
 
 
 
@@ -145,6 +146,7 @@ Route::middleware(['auth', 'checkrole:building_admin'])->group(function () {
         Route::get('/dashboard', [BuildingAdminController::class, 'index'])->name('admin.dashboard');
         Route::post('/application/{id}/update-status', [BuildingAdminController::class, 'updateStatus'])->name('admin.application.update-status');
         Route::get('/download/{file}', [BuildingAdminController::class, 'download'])->name('admin.download');
+        Route::get('/count-applications', [CountAdminController::class, 'index'])->name('admin.count');
     });
 });
 

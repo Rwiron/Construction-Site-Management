@@ -12,17 +12,7 @@ use Illuminate\Support\Facades\Storage;
 
 class BuildingApplicationController extends Controller
 {
-    /**
-     * Display a listing of building applicants.
-     */
-    // public function index()
-    // {
-    //     // Fetch all applications with their user info
-    //     $applications = BuildingApplicant::with('user')->get();
-    //     // Pass data to the view
-    //     return view('building_application.index', compact('applications'));
-    // }
-
+    
 
     public function index()
     {

@@ -44,6 +44,63 @@
             </div>
         </div>
 
+        <div class="flex flex-col gap-2 py-4 md:flex-row md:items-center">
+            <div class="grow">
+                <h5 class="text-16 font-bold">Application Statistics</h5>
+                <p class="text-sm text-gray-500">Overview of all application statuses.</p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-12 gap-4">
+            <div class="col-span-12 md:col-span-6 lg:col-span-3 card">
+                <div class="card-body text-center">
+                    <h6 class="text-gray-500">Total Applications</h6>
+                    <h2 class="text-4xl font-bold text-blue-500">{{ $totalApplications }}</h2>
+                </div>
+            </div>
+
+            <div class="col-span-12 md:col-span-6 lg:col-span-3 card">
+                <div class="card-body text-center">
+                    <h6 class="text-gray-500">Approved</h6>
+                    <h2 class="text-4xl font-bold text-green-500">{{ $approved }}</h2>
+                </div>
+            </div>
+
+            <div class="col-span-12 md:col-span-6 lg:col-span-3 card">
+                <div class="card-body text-center">
+                    <h6 class="text-gray-500">Under Review</h6>
+                    <h2 class="text-4xl font-bold text-yellow-500">{{ $underReview }}</h2>
+                </div>
+            </div>
+
+            <div class="col-span-12 md:col-span-6 lg:col-span-3 card">
+                <div class="card-body text-center">
+                    <h6 class="text-gray-500">Rejected</h6>
+                    <h2 class="text-4xl font-bold text-red-500">{{ $rejected }}</h2>
+                </div>
+            </div>
+
+            <div class="col-span-12 md:col-span-6 lg:col-span-3 card">
+                <div class="card-body text-center">
+                    <h6 class="text-gray-500">Submitted</h6>
+                    <h2 class="text-4xl font-bold text-purple-500">{{ $submitted }}</h2>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Search Bar -->
+        <div class="flex flex-col gap-2 py-4 md:flex-row md:items-center">
+            <form action="{{ route('admin.dashboard') }}" method="GET" class="flex gap-2 w-full md:w-auto">
+                <input type="text" name="search" value="{{ $query ?? '' }}" class="form-input w-full border-slate-300 rounded-md focus:outline-none focus:border-custom-500" placeholder="Search by name or email...">
+                <button type="submit" class="text-white btn bg-custom-500 hover:bg-custom-600">
+                    <i data-lucide="search" class="inline-block size-4"></i> Search
+                </button>
+            </form>
+        </div>
+
+
+
         <!-- Cards Section -->
         <div class="grid grid-cols-1 gap-x-5 md:grid-cols-2 xl:grid-cols-4 mt-6">
             @forelse ($applications as $application)
@@ -66,7 +123,6 @@
 
                     <div class="flex flex-col gap-2 mt-5">
 
-                        <!-- Document Download Buttons -->
 
                         @php
                         $documents = json_decode($application->documents, true);
